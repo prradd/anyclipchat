@@ -22,10 +22,7 @@ server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 const { Sequelize } = require('sequelize').default;
 
-const host = 'sql11.freesqldatabase.com';
-const database = 'sql11423120';
-const username = 'sql11423120';
-const password = 'TIUjRBenqR';
+
 
 // const sequelize = new Sequelize(database, username, password, {
 //     host: host,
