@@ -1,28 +1,39 @@
+const app = require('express')();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET"]
+    }
+});
 const path = require('path');
-const http = require('http');
-const express = require('express');
-const socketio = require('socket.io');
 
-
-const PORT = 5000 || process.env.PORT;
-
-const app = express();
-const server = http.createServer(app);
-const io = socketio(server);
-
-// Set static folder
-app.use(express.static(path.join(__dirname, '../client/public')));
-
-// Run when client connects
 io.on('connection', socket => {
-    console.log('New WS connection')
+
+    // Welcome current user
+    socket.emit('message', 'Welcome to AnyClip chat!')
+
+    // Broadcast when user connects
+    socket.broadcast.emit('message', 'A user has joined the chat');
+
+    // When user disconnects
+    socket.on('disconnect', () => {
+        io.emit('message', 'A user has left the chat')
+    })
 })
 
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+http.listen(4000, () => {
+    console.log('listening on port 4000');
+})
 
-const { Sequelize } = require('sequelize').default;
 
 
+// const { Sequelize } = require('sequelize').default;
+
+// const host = 'sql11.freesqldatabase.com';
+// const database = 'sql11423120';
+// const username = 'sql11423120';
+// const password = 'TIUjRBenqR';
 
 // const sequelize = new Sequelize(database, username, password, {
 //     host: host,
