@@ -1,0 +1,23 @@
+
+/* Resets */
+
+body {
+  background: #878787;
+}
+
+/* Editions */
+
+.MuiListItem-button:hover,
+.MuiListItem-button:focus {
+  background-color: rgba(100, 100, 100, 0.5) !important;
+}
+
+.chat-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  background-color: rgba(220,220,220,0.5);
+  box-shadow: inset 1px 1px 5px rgba(50,50,50, 0.8);
+}
