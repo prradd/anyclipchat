@@ -1,4 +1,5 @@
 const app = require('express')();
+const fileUpload = require('express-fileupload');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
     cors: {
@@ -7,43 +8,36 @@ const io = require('socket.io')(http, {
     }
 });
 
-const formatMessage = require('./utils/messages');
-const {userJoin, getCurrentUser, userLeave, getChatUsers} = require("./utils/users");
+const socket = require('./libs/socket');
 
-const botName = 'AnyClip Bot';
+socket(io);
 
-io.on('connection', socket => {
-    socket.on('joinChat', username => {
-        const user = userJoin(socket.id, username)
+app.use(fileUpload({}));
 
-        // Welcome current user
-        socket.emit('message', formatMessage(botName,'Welcome to AnyClip chat!'))
+// Upload Endpoint
+app.post('/upload', (req, res) => {
+    if (req.files === null) {
+        return res.status(400).json({ msg: 'No file uploaded' });
+    }
 
-        // Broadcast when user connects
-        socket.broadcast.emit('message', formatMessage(botName,`${username} has joined the chat`));
+    const file = req.files.file;
 
-        // Send all users
-        io.emit('chatUsers', getChatUsers());
-    })
+    const r = (Math.random()).toString().substr(2)
+    const newFileName = file.name.replace(/\.([a-zA-Z0-9]*)$/, `_${r}.$1`);
 
-    // Listen for chatMessage
-    socket.on('chatMessage', (msg) => {
-        const user = getCurrentUser(socket.id);
-        io.emit('message', formatMessage(user?.username, msg));
-    })
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png"){
+        file.mv(`${__dirname}/client/public/uploads/${newFileName}`, err => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send(err);
+            }
 
-    // When user disconnects
-    socket.on('disconnect', () => {
-        const user = userLeave(socket.id);
-
-        if (user) {
-            io.emit('message', formatMessage(botName,`${user.username} has left the chat`))
-
-            // Send all users
-            io.emit('chatUsers', getChatUsers());
-        }
-    })
-})
+            res.json({ fileName: newFileName, filePath: `/uploads/${newFileName}` });
+        });
+    } else {
+        return res.status(400).json({ msg: 'Only Jpg/Jpeg and png files allowed' });
+    }
+});
 
 http.listen(4000, () => {
     console.log('listening on port 4000');
