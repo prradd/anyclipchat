@@ -21,3 +21,11 @@ body {
   background-color: rgba(220,220,220,0.5);
   box-shadow: inset 1px 1px 5px rgba(50,50,50, 0.8);
 }
+
+.MuiButton-startIcon {
+  margin: 0 !important;
+}
+
+.default-avatar {
+  background-image: url('./utils/img/AnyClip_Default_Avatar.png') !important;
+}

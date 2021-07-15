@@ -10,6 +10,8 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import {ChatContext} from "../ChatContext";
 import MessageBlock from "./MessageBlock";
 
+const serverUri = process.env.REACT_APP_SERVER_URL
+    ? process.env.REACT_APP_SERVER_URL : "http://localhost:4000";
 
 const ChatBody = () => {
 
@@ -25,9 +27,10 @@ const ChatBody = () => {
         element.current.scrollTop = element.current.scrollHeight;
     }
 
+
     useEffect(
         () => {
-            socketRef.current = io.connect("http://localhost:4000")
+            socketRef.current = io.connect(serverUri);
 
             // Join chat
             socketRef.current.emit('joinChat', user?.userName);

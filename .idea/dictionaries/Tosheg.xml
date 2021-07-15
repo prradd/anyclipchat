@@ -3,6 +3,7 @@
     <words>
       <w>arrm</w>
       <w>axios</w>
+      <w>multer</w>
       <w>sequelize</w>
       <w>socketio</w>
     </words>

@@ -8,6 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
+import ImageUpload from "./ImageUpload";
 
 const JoinChat = () => {
 
@@ -17,8 +18,6 @@ const JoinChat = () => {
         e.preventDefault();
         const userName = e.target.username?.value;
         if (userName) setUser({userName});
-
-
     }
 
     return (
@@ -27,12 +26,15 @@ const JoinChat = () => {
             <CardContent>
                 <form action="" id="join-chat" onSubmit={onJoinChat}>
                     <FormControl fullWidth >
-                        <Grid container direction="row" justify="flex-start" alignItems="flex-start"
+                        <Grid container direction="row" justify="flex-start" alignItems="center"
                               spacing={2}>
-                            <Grid item sm={8}>
+                            <Grid item sm={2}>
+                                <ImageUpload/>
+                            </Grid>
+                            <Grid item sm={7}>
                                 <TextField fullWidth id="username" label="Username" variant="outlined"/>
                             </Grid>
-                            <Grid item sm={4}>
+                            <Grid item sm={3}>
                                 <Button type='submit' color='primary' fullWidth style={{height:'55px'}} variant="contained">Join</Button>
                             </Grid>
                         </Grid>

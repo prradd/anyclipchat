@@ -17,9 +17,9 @@ const Sidebar = () => {
                     Users on line:
                 </ListSubheader>
                 {
-                    allUsers.map(user => {
+                    allUsers.map((user, i) => {
                         return (
-                            <ListItem ><ListItemText primary={user.username}/></ListItem>
+                            <ListItem key={i} ><ListItemText primary={user.username}/></ListItem>
                         )
                     })
                 }

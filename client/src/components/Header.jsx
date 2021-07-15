@@ -1,11 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Typography from "@material-ui/core/Typography";
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
+import {ChatContext} from "../ChatContext";
 
 const Header = () => {
+    const {user, setUser, setAllUsers} = useContext(ChatContext);
+
+    const handleLogout = () => {
+        setUser(user.userName = '');
+        setAllUsers([]);
+    }
 
     return (
         <AppBar position="static" style={{flexDirection: "row", justifyContent: "space-between"}}>
@@ -22,7 +29,10 @@ const Header = () => {
                 </Typography>
             </Toolbar>
             <Toolbar>
-                <Button color="inherit">Login</Button>
+                {
+                    !!user?.userName ? <Button onClick={handleLogout} color="inherit">Logout</Button> : null
+                }
+
             </Toolbar>
         </AppBar>
     );

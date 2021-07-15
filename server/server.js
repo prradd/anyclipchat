@@ -1,5 +1,5 @@
-const app = require('express')();
-const fileUpload = require('express-fileupload');
+const express = require('express');
+const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
     cors: {
@@ -7,36 +7,42 @@ const io = require('socket.io')(http, {
         methods: ["GET"]
     }
 });
+cors = require('cors');
+const multer = require('multer');
+const path = require('path');
 
 const socket = require('./libs/socket');
 
 socket(io);
 
-app.use(fileUpload({}));
+app.use(cors()); // To allow requests from other server
+
+// To allow Get request to public folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+const storage = multer.diskStorage({
+    destination: (req, res, cb) => {
+        cb(null, 'public')
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname)
+    }
+})
+
+const upload = multer({storage}).single('file');
 
 // Upload Endpoint
-app.post('/upload', (req, res) => {
-    if (req.files === null) {
-        return res.status(400).json({ msg: 'No file uploaded' });
-    }
+app.post('/upload',(req, res) => {
 
-    const file = req.files.file;
+    upload(req, res, (err) => {
+        if (err instanceof multer.MulterError) {
+            return res.status(500).json(err)
+        } else if (err) {
+            return res.status(500).json(err)
+        }
+        return res.status(200).send(req.file)
+    })
 
-    const r = (Math.random()).toString().substr(2)
-    const newFileName = file.name.replace(/\.([a-zA-Z0-9]*)$/, `_${r}.$1`);
-
-    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png"){
-        file.mv(`${__dirname}/client/public/uploads/${newFileName}`, err => {
-            if (err) {
-                console.error(err);
-                return res.status(500).send(err);
-            }
-
-            res.json({ fileName: newFileName, filePath: `/uploads/${newFileName}` });
-        });
-    } else {
-        return res.status(400).json({ msg: 'Only Jpg/Jpeg and png files allowed' });
-    }
 });
 
 http.listen(4000, () => {
