@@ -1,11 +1,11 @@
 import React from 'react';
 import Chat from "./components/Chat";
-import {createMuiTheme} from '@material-ui/core/styles';
+import {createTheme} from '@material-ui/core/styles';
 import {MuiThemeProvider} from "@material-ui/core";
 import {ChatProvider} from "./ChatContext";
 import './App.css';
 
-const theme = createMuiTheme({
+const theme = createTheme({
     palette: {
         primary: {
             light: '#aaaaaa',

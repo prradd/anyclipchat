@@ -24,7 +24,7 @@ const ChatBody = () => {
     const socketRef = useRef()
 
     const resetScrollEffect = ({ element }) => {
-        element.current.scrollTop = element.current.scrollHeight + 10000;
+        element.current.scrollTop = element.current.scrollHeight;
     }
 
     useEffect(
@@ -46,6 +46,9 @@ const ChatBody = () => {
             return () => socketRef.current.disconnect()
         }, [])
 
+    useEffect(() => {
+        resetScrollEffect({ element: scrollRef });
+    }, [msgArr])    
 
     const onTextChange = (e) => {
         setMsg(e.target.value)
@@ -63,7 +66,7 @@ const ChatBody = () => {
             setMsg('');
 
             // Scroll to the last message
-            resetScrollEffect({ element: scrollRef });
+            // resetScrollEffect({ element: scrollRef });
 
             // Focus on message area
             textRef.current.focus();
@@ -83,7 +86,7 @@ const ChatBody = () => {
                       onSubmit={onSendMessage}
                 >
                     <FormControl fullWidth >
-                        <Grid container direction="row" justify="flex-start" alignItems="flex-start"
+                        <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start"
                               spacing={2}>
                             <Grid item sm={10}>
                                 <TextField fullWidth

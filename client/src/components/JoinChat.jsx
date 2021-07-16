@@ -26,7 +26,7 @@ const JoinChat = () => {
             <CardContent>
                 <form action="" id="join-chat" onSubmit={onJoinChat}>
                     <FormControl fullWidth >
-                        <Grid container direction="row" justify="flex-start" alignItems="center"
+                        <Grid container direction="row" justifyContent="flex-start" alignItems="center"
                               spacing={2}>
                             <Grid item sm={2}>
                                 <ImageUpload/>
