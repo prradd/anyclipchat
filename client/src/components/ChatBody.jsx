@@ -47,6 +47,7 @@ const ChatBody = () => {
         }, [])
 
     useEffect(() => {
+        // Scroll to the last message
         resetScrollEffect({ element: scrollRef });
     }, [msgArr])    
 
@@ -64,9 +65,6 @@ const ChatBody = () => {
 
             // Reset message text
             setMsg('');
-
-            // Scroll to the last message
-            // resetScrollEffect({ element: scrollRef });
 
             // Focus on message area
             textRef.current.focus();
