@@ -1,18 +1,18 @@
 const formatMessage = require('../utils/messages');
 const {userJoin, getCurrentUser, userLeave, getChatUsers} = require("../utils/users");
 
-const botName = 'AnyClip Bot';
+const botName = {username: 'AnyClip Bot'};
 
 function socket(io) {
     io.on('connection', socket => {
-        socket.on('joinChat', username => {
-            const user = userJoin(socket.id, username)
+        socket.on('joinChat', user => {
+            const userJoined = userJoin(socket.id, user.userName, user.avatar)
 
             // Welcome current user
             socket.emit('message', formatMessage(botName,'Welcome to AnyClip chat!'))
 
             // Broadcast when user connects
-            socket.broadcast.emit('message', formatMessage(botName,`${username} has joined the chat`));
+            socket.broadcast.emit('message', formatMessage(botName,`${userJoined.username} has joined the chat`));
 
             // Send all users
             io.emit('chatUsers', getChatUsers());
@@ -21,7 +21,8 @@ function socket(io) {
         // Listen for chatMessage
         socket.on('chatMessage', (msg) => {
             const user = getCurrentUser(socket.id);
-            io.emit('message', formatMessage(user?.username, msg));
+            console.log(user);
+            io.emit('message', formatMessage(user, msg));
         })
 
         // When user disconnects

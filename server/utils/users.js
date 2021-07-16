@@ -1,12 +1,12 @@
 const users = [];
 
 // Join user to chat
-function userJoin(id, username) {
-    const user = { id, username};
+function userJoin(id, username, avatar) {
+    const userJoined = { id, username, avatar};
 
-    users.push(user);
+    users.push(userJoined);
 
-    return user;
+    return userJoined;
 }
 
 // Get current user
@@ -27,6 +27,8 @@ function userLeave(id) {
 function getChatUsers() {
     return users;
 }
+
+console.log(users)
 
 module.exports = {
     userJoin,

@@ -1,28 +1,23 @@
-import React, {useEffect, useRef, useState} from 'react';
-import axios from 'axios';
+import React, {useContext, useRef} from 'react';
+import {ChatContext} from "../ChatContext";
 
-import defAvatar from '../assets/img/AnyClip_Default_Avatar_flat.png';
+import axios from 'axios';
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {createStyles} from "@material-ui/core";
 
 const ImageUpload = () => {
 
-    const [selectedImage, setSelectedImage] = useState(null);
+    const {selectedImage, setSelectedImage} = useContext(ChatContext);
 
-    const avatarUrl = selectedImage ?
-        `${process.env.REACT_APP_SERVER_URL}/${selectedImage.filename}`
-        : defAvatar;
-
-    const useStyles = makeStyles((theme) => ({
+    const useStyles = makeStyles(() => ({
         button: {
             width: '80px',
             height: '80px',
             borderRadius: '50%',
-            "&:before": {
+            "&:before": { // Set avatar image
                 content: '""',
                 position: 'absolute',
                 display: 'block',
@@ -30,15 +25,14 @@ const ImageUpload = () => {
                 width: '100%',
                 left: 0,
                 top: 0,
-                backgroundImage: `url("${avatarUrl}")`,
+                backgroundImage: `url("${selectedImage}")`,
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: '50% 50%',
                 backgroundSize: '100% 100%',
                 borderRadius: '50%',
-                opacity: '0.5'
+                opacity: '0.5',
             },
         },
-
         input: {
             display: 'none'
         }
@@ -61,23 +55,10 @@ const ImageUpload = () => {
         // TODO uri to env property
         axios.post(`${process.env.REACT_APP_SERVER_URL}/upload`, data, {} )
             .then((res) => {
-                console.log(res.data.filename);
-                setSelectedImage(res.data);
+                if (res.data.filename)
+                    setSelectedImage(`${process.env.REACT_APP_SERVER_URL}/${res.data.filename}`);
             })
     }
-
-    // const avatar = () => {
-    //     return (
-    //         selectedImage ?
-    //             <img src={`${process.env.REACT_APP_SERVER_URL}/${selectedImage.filename}`} alt="avatar"/>
-    //             : <img src={defAvatar} alt="default avatar"/>
-    //     )
-    // }
-
-
-    useEffect(() => {
-        console.log(selectedImage);
-    })
 
     return (
         <Box textAlign="center">
@@ -85,7 +66,6 @@ const ImageUpload = () => {
                 onClick={handleClick}
                 variant="contained"
                 className={classes.button}
-                // style={{backgroundImage: ""}}
                 startIcon={<CloudUploadIcon/>}
             >
                 <input type="file"

@@ -12,12 +12,12 @@ import ImageUpload from "./ImageUpload";
 
 const JoinChat = () => {
 
-    const {setUser} = useContext(ChatContext);
+    const {setUser, selectedImage} = useContext(ChatContext);
 
     const onJoinChat = (e) => {
         e.preventDefault();
         const userName = e.target.username?.value;
-        if (userName) setUser({userName});
+        if (userName) setUser({userName, avatar: selectedImage});
     }
 
     return (

@@ -24,20 +24,19 @@ const ChatBody = () => {
     const socketRef = useRef()
 
     const resetScrollEffect = ({ element }) => {
-        element.current.scrollTop = element.current.scrollHeight;
+        element.current.scrollTop = element.current.scrollHeight + 10000;
     }
-
 
     useEffect(
         () => {
             socketRef.current = io.connect(serverUri);
 
             // Join chat
-            socketRef.current.emit('joinChat', user?.userName);
+            socketRef.current.emit('joinChat', user);
 
             // Get chat users
             socketRef.current.on('chatUsers', users => {
-                setAllUsers(users );
+                setAllUsers(users);
             });
 
             // Update messages
@@ -75,7 +74,7 @@ const ChatBody = () => {
     return (
         <>
             <Box ref={scrollRef} width='90%' style={{height: '80vh', overflow: 'auto'}}>
-                {msgArr.map((msg, index) => <MessageBlock key={index} props={msg}/>)}
+                {msgArr.map((msg, index) => <MessageBlock key={index} {...msg} />)}
             </Box>
             <Box width='100%'>
                 <form action=""
