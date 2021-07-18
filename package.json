@@ -1,0 +1,29 @@
+{
+  "name": "anyclipchat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "npm i && npm i --prefix server && npm i --prefix client",
+    "start": "node server/server.js",
+    "server": "nodemon server/server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prradd/anyclipchat.git"
+  },
+  "author": "Anton Shestakov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prradd/anyclipchat/issues"
+  },
+  "homepage": "https://github.com/prradd/anyclipchat#readme",
+  "devDependencies": {
+    "concurrently": "^6.2.0",
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.12"
+  }
+}
