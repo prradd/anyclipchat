@@ -8,6 +8,8 @@ const io = require('socket.io')(http, {
     }
 });
 const path = require('path');
+require('dotenv').config();
+
 
 // Database
 const db = require('./config/database');
@@ -24,9 +26,10 @@ fileUpload(app);
 // To allow Get request to public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
+const PORT = process.env.PORT || 4000;
 
-http.listen(4000, () => {
-    console.log('listening on port 4000');
+http.listen(PORT, () => {
+    console.log(`listening on port ${PORT}`);
 })
 
 

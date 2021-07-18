@@ -34,9 +34,14 @@ const ChatBody = () => {
             // Join chat
             socketRef.current.emit('joinChat', user);
 
+            // Get previous messages
+            socketRef.current.on('prevChatMessages', prevMessages => {
+                setMsgArr((oldMsgsArr) => [...oldMsgsArr, ...prevMessages]);
+            })
+
             // Get chat users
             socketRef.current.on('chatUsers', users => {
-                setAllUsers(users);
+                setAllUsers((oldUsers) => [...oldUsers, ...users]);
             });
 
             // Update messages
@@ -45,6 +50,7 @@ const ChatBody = () => {
             })
             return () => socketRef.current.disconnect()
         }, [])
+
 
     useEffect(() => {
         // Scroll to the last message
@@ -71,6 +77,12 @@ const ChatBody = () => {
         }
     }
 
+    const handleKeyDown = (e) => {
+        if (e.keyCode === 13 && !e.shiftKey) {
+            onSendMessage(e);
+        }
+    }
+
 
     return (
         <>
@@ -89,6 +101,7 @@ const ChatBody = () => {
                             <Grid item sm={10}>
                                 <TextField fullWidth
                                            multiline
+                                           autoFocus={true}
                                            id="msg"
                                            inputRef={textRef}
                                            placeholder="Write your text here"
@@ -100,6 +113,7 @@ const ChatBody = () => {
                                            InputLabelProps={{
                                                shrink: false,
                                            }}
+                                           onKeyDown={handleKeyDown}
                                 />
 
                             </Grid>

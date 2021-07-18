@@ -1,11 +1,12 @@
 const Sequelize = require('sequelize');
+require('dotenv').config();
 
-const host = '34.122.34.203';
+const host = process.env.DB_HOST;
 //TODO add ip of heroku in google cloud connections on deploy
 
-const database = 'chat';
-const username = 'anyclipchat';
-const password = 'm6e3v?J8';
+const database = process.env.DB_TABLE;
+const username = process.env.DB_UNAME;
+const password = process.env.DB_PSWD;
 
 module.exports = new Sequelize(database, username, password, {
     host,

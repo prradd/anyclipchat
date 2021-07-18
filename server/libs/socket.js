@@ -1,18 +1,32 @@
 const formatMessage = require('../utils/messages');
 const {userJoin, getCurrentUser, userLeave, getChatUsers} = require("../utils/users");
 
-const db = require('../config/database');
 const Message = require('../models/Message');
 
 const botName = {username: 'AnyClip Bot'};
 
 function socket(io) {
     io.on('connection', socket => {
-        Message.findAll()
-            .then(messages => console.log(messages))
+        // Send previous messages before before user connected
+        Message.findAll({
+            limit: 10,
+            where: {},
+            order: [['id', 'DESC']]
+        })
+            .then(messages => {
+                const prevMessages = messages.map(message => {
+                    return formatMessage({
+                        username: message?.username,
+                        avatar: message?.avatar,
+                        time: message?.time
+                    }, message?.message_text)
+                });
+                socket.emit('prevChatMessages', prevMessages.reverse())
+            })
             .catch(err => console.log(err));
 
         socket.on('joinChat', user => {
+
             const userJoined = userJoin(socket.id, user.userName, user.avatar)
 
             // Welcome current user
@@ -29,7 +43,6 @@ function socket(io) {
         socket.on('chatMessage', (msg) => {
             const user = getCurrentUser(socket.id);
             const newMessage = formatMessage(user, msg);
-            console.log(newMessage)
 
             Message.create({
                 socket_id: socket.id,

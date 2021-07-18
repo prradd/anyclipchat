@@ -7,7 +7,7 @@ export const ChatContext = createContext({});
 export const ChatProvider = props => {
     const [user, setUser] = useState({userName: '', avatar: defAvatar});
     const [selectedImage, setSelectedImage] = useState(defAvatar);
-    const [allUsers, setAllUsers] = useState([])
+    const [allUsers, setAllUsers] = useState([]);
 
     return (
         <ChatContext.Provider value={{ user, setUser, selectedImage, setSelectedImage, allUsers, setAllUsers }}>
