@@ -55,8 +55,6 @@ function socket(io) {
                     io.emit('message', newMessage);
                 })
                 .catch((err => console.log(err)))
-
-
         })
 
         // When user disconnects
