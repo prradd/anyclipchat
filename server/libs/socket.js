@@ -1,10 +1,17 @@
 const formatMessage = require('../utils/messages');
 const {userJoin, getCurrentUser, userLeave, getChatUsers} = require("../utils/users");
 
+const db = require('../config/database');
+const Message = require('../models/Message');
+
 const botName = {username: 'AnyClip Bot'};
 
 function socket(io) {
     io.on('connection', socket => {
+        Message.findAll()
+            .then(messages => console.log(messages))
+            .catch(err => console.log(err));
+
         socket.on('joinChat', user => {
             const userJoined = userJoin(socket.id, user.userName, user.avatar)
 
@@ -21,8 +28,22 @@ function socket(io) {
         // Listen for chatMessage
         socket.on('chatMessage', (msg) => {
             const user = getCurrentUser(socket.id);
-            console.log(user);
-            io.emit('message', formatMessage(user, msg));
+            const newMessage = formatMessage(user, msg);
+            console.log(newMessage)
+
+            Message.create({
+                socket_id: socket.id,
+                username: newMessage.userName,
+                avatar: newMessage.avatar,
+                message_text: newMessage.text,
+                time: newMessage.time
+            })
+                .then(message => {
+                    io.emit('message', newMessage);
+                })
+                .catch((err => console.log(err)))
+
+
         })
 
         // When user disconnects

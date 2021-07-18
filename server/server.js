@@ -9,6 +9,11 @@ const io = require('socket.io')(http, {
 });
 const path = require('path');
 
+// Database
+const db = require('./config/database');
+db.authenticate().then(() => console.log('Connection to DB has been established successfully.'));
+
+// Socket
 const socket = require('./libs/socket');
 const fileUpload = require('./libs/fileUpload');
 

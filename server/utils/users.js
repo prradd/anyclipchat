@@ -28,8 +28,6 @@ function getChatUsers() {
     return users;
 }
 
-console.log(users)
-
 module.exports = {
     userJoin,
     getCurrentUser,
