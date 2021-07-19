@@ -12,6 +12,10 @@ import ImageUpload from "./ImageUpload";
 
 const JoinChat = () => {
 
+
+    console.log('env', process.env.PUBLIC_URL);
+    console.log(process.env.REACT_APP_PUBLIC_URL);
+
     const {setUser, selectedImage} = useContext(ChatContext);
 
     const onJoinChat = (e) => {

@@ -1,8 +1,13 @@
+const express = require('express');
 cors = require('cors');
 const multer = require('multer');
+const path = require('path');
 
 function fileUpload(app) {
     app.use(cors()); // To allow requests from other server
+
+    // To allow Get request to public folder
+    app.use(express.static(path.join(__dirname, '../public')));
 
     const storage = multer.diskStorage({
         destination: (req, res, cb) => {

@@ -23,8 +23,6 @@ socket(io);
 
 fileUpload(app);
 
-// To allow Get request to public folder
-// app.use(express.static(path.join(__dirname, 'public')));
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
     // Set static folder
