@@ -56,7 +56,7 @@ const ImageUpload = () => {
         axios.post(`${process.env.REACT_APP_SERVER_URL}/upload`, data, {} )
             .then((res) => {
                 if (res.data.filename)
-                    setSelectedImage(`${process.env.REACT_APP_SERVER_URL}/${res.data.filename}`);
+                    setSelectedImage(`${process.env.REACT_APP_SERVER_URL}/public/${res.data.filename}`);
             })
     }
 

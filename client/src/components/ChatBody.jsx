@@ -11,7 +11,7 @@ import {ChatContext} from "../ChatContext";
 import MessageBlock from "./MessageBlock";
 
 const serverUri = process.env.REACT_APP_SERVER_URL
-    ? process.env.REACT_APP_SERVER_URL : "http://localhost:4000";
+    ? process.env.REACT_APP_SERVER_URL : "";
 
 const ChatBody = () => {
 

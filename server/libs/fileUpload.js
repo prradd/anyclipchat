@@ -6,8 +6,9 @@ const path = require('path');
 function fileUpload(app) {
     app.use(cors()); // To allow requests from other server
 
+    console.log(path.join(__dirname, '../public'))
     // To allow Get request to public folder
-    app.use(express.static(path.join(__dirname, '../public')));
+    app.use('/public', express.static(path.join(__dirname, '../public')));
 
     const storage = multer.diskStorage({
         destination: (req, res, cb) => {

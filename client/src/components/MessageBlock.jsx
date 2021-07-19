@@ -29,7 +29,6 @@ const MessageBlock = (props) => {
                         style={{
                             display: "flex",
                             alignItems: 'center',
-                            // paddingTop: '15px',
                             margin: 'auto'
                         }}
             >
