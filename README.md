@@ -23,4 +23,14 @@ functionality:
 
 ```npm run dev``` To run server and client **concurrenly**
 
+### There was a requirement to use Mysql Data Base.
+
+So we will need to run the DB and set the credentials inside the **.env** we will create manually:
+```
+DB_HOST=
+DB_TABLE=
+DB_UNAME=
+DB_PSWD=
+```
+
 
