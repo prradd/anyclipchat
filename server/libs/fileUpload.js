@@ -11,7 +11,7 @@ function fileUpload(app) {
 
     const storage = multer.diskStorage({
         destination: (req, res, cb) => {
-            cb(null, 'public')
+            cb(null, path.join(__dirname, '../public'))
         },
         filename: (req, file, cb) => {
             cb(null, Date.now() + '-' + file.originalname)
