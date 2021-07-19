@@ -19,6 +19,9 @@ const theme = createTheme({
 
 function App() {
 
+    console.log('env', process.env.PUBLIC_URL);
+    console.log(process.env.REACT_APP_PUBLIC_URL);
+
     return (
         <MuiThemeProvider theme={theme}>
             <ChatProvider>
