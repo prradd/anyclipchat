@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
+
 const ImageUpload = () => {
 
     const {selectedImage, setSelectedImage} = useContext(ChatContext);
@@ -56,7 +57,7 @@ const ImageUpload = () => {
         axios.post(`${process.env.REACT_APP_SERVER_URL}/upload`, data, {} )
             .then((res) => {
                 if (res.data.filename)
-                    setSelectedImage(`${process.env.REACT_APP_SERVER_URL}/public/${res.data.filename}`);
+                    setSelectedImage(`${process.env.REACT_APP_SERVER_URL ?? ''}/public/${res.data.filename}`);
             })
     }
 
