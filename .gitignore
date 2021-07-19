@@ -4,6 +4,8 @@
 
 /server/public/*
 
+!/server/public/.gitkeep
+
 /client/.env
 
 *.env
